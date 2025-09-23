@@ -6,7 +6,7 @@ name = "jean_moulinette"
 title = "Jean Moulinette"
 
 # Required: Valid semantic version (https://semver.org/)
-version = "0.0.1"
+version = "0.0.2"
 
 # Name of client code directory imported in AYON launcher
 # - do not specify if there is no client code
