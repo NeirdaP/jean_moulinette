@@ -4,10 +4,14 @@ from ayon_core.pipeline.context_tools import get_current_context
 
 
 def main():
-    texture_folder_relative_path = "/publish/image/imageTexture/v001"
+    # Create folders
+    texture_folder_relative_path = "/publish/image/imageTexture"
     current_folder_path = get_current_folder_full_path()
     texture_folder_path = f"{current_folder_path}{texture_folder_relative_path}"
     os.makedirs(texture_folder_path, exist_ok=True)
+
+    # Open created folder in filesystem
+    os.startfile(texture_folder_path)
 
 
 def get_folder_from_context(context):
@@ -33,10 +37,8 @@ def get_project_root_path(project_name):
     con = ayon_api.get_server_api_connection()
     project = con.get_project(project_name)
 
-    # Get roots for this project
     roots = project["config"]["roots"]
 
-    # Pick the "work" root
     work_root = roots["work"]
     root_path = work_root["windows"]
     full_path = os.path.join(root_path, project_name)
