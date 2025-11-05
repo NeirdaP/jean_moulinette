@@ -22,7 +22,7 @@ def main():
 
     try:
         workfile_template_builder.build_workfile_template()
-        utils.save_next_version()
+        utils.save_next_version(description="First workfile automatic build and save by jean moulinette")
     except Exception as e:
         print("Hit exception during scene build: {}".format(e))
 
