@@ -18,15 +18,29 @@ def execute_script(project, script_name, dcc=None):
     spec.loader.exec_module(module)
 
 
-def get_scripts(project, dcc=None):
-    # Return all the registered scripts, optionally only for certain DCC
+def get_scripts(project, dcc=None, additional_folders=None):
+    """
+    Return all the registered scripts for a dcc, defaulting to maya
+
+    By default, return the scripts in the common directory. Project-specific
+    or other types of scripts (e.g. workfile build) are located in different
+    subdirectories which can be specified by additional_folders.
+    """
+
     from . import scripts
     script_names_to_path = {}
+    folders_to_search = ["common"]
+    if additional_folders:
+        folders_to_search.extend(additional_folders)
 
     def filter_scripts_from_root(script_names_to_path, root):
         all_files = root.rglob("*")
 
         for path in all_files:
+            # Skip any directories that are out of the scope of interest (not in common or additional directories)
+            if not any(folder in str(path) for folder in folders_to_search):
+                continue
+
             basename,ext = os.path.splitext(os.path.basename(path))
             if (ext!=".py") or (basename == "__init__") or (basename in script_names_to_path):        # Only consider non init python files that haven't already been added
                 continue
